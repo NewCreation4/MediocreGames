@@ -1,23 +1,19 @@
-P="\e[34m\e[1m&\e[0m"
-T="\e[90m#\e[0m"
-W="\e[94m\e[2m!\e[0m"
-G="\e[32m$\e[0m"
-
-map=[
+system "clear"
+P = "\e[34m\e[1m&\e[0m"
+T = "\e[90m#\e[0m"
+W = "\e[94m\e[2m!\e[0m"
+G = "\e[32m$\e[0m"
+map = [
   [W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W],
   [W,P,W,T,T,T,W,T,W,T,W,T,T,T,T,T,T,T,W],
   [W,T,T,T,W,T,T,T,T,T,T,T,T,W,W,W,W,T,W],
   [W,T,W,T,T,T,T,T,W,W,W,W,W,W,T,T,T,T,W],
   [W,W,W,W,W,W,W,W,W,W,T,T,W,T,T,T,W,W,W],
   [W,G,T,T,T,T,T,T,T,T,T,T,T,T,W,T,T,T,W],
-  [W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W]
-]
-mapMessages={
-  "onWinMessage"=>"u win",
-}
-
-px=1
-py=1
+  [W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W]]
+MapSettings = {"WinMessage"=>"\e[34m\e[1mYou won!\e[0m"}
+x = 1
+y = 1
 
 define_singleton_method("showmap") {
   map.each do |line|
@@ -28,55 +24,48 @@ define_singleton_method("showmap") {
   end
 }
 define_singleton_method("win") {
-  puts mapMessages["onWinMessage"]
-  exit
-}
-showmap
+  puts MapSettings["WinMessage"]; exit
+}; showmap
 
 puts """
-v is down
-^ is up
-> is frontwards
-< is backwards
-"""
+1 is frontwards
+2 is backwards
+3 is up
+4 is down """
 
 while true
   print "Move: "
-  move=gets.chomp
+  move = gets.chomp
   system("clear")
   
   case move
-  when ">"
-    if map[py][px+1]==T 
-      map[py][px]=T
-      map[py][px+1]=P
-      px+=1
-    elsif map[py][px+1]==G
-      win
+  when "1"
+    win unless map[y][x+1]!=G
+    if map[y][x+1]!=W
+      map[y][x]=T
+      map[y][x+1]=P
+      x+=1
     end
-  when "<"
-    if map[py][px-1]==T 
-      map[py][px]=T
-      map[py][px-1]=P
-      px-=1
-    elsif map[py][px-1]==G
-      win
+  when "2"
+    win unless map[y][x-1]!=G
+    if map[y][x-1]!=W
+      map[y][x]=T
+      map[y][x-1]=P
+      x-=1
     end
-  when "^"
-    if map[py-1][px]==T 
-      map[py][px]=T
-      map[py-1][px]=P
-      py-=1
-    elsif map[py-1][px]==G
-      win
+  when "3"
+    win unless map[y-1][x]!=G
+    if map[y-1][x]!=W
+      map[y][x]=T
+      map[y-1][x]=P
+      y-=1
     end
-  when "v"
-    if map[py+1][px]==T 
-      map[py][px]=T
-      map[py+1][px]=P
-      py+=1
-    elsif map[py+1][px]==G
-      win
+  when "4"
+    win unless map[y+1][x]!=G
+    if map[y+1][x]!=W
+      map[y][x]=T
+      map[y+1][x]=P
+      y+=1
     end
   end
   showmap
