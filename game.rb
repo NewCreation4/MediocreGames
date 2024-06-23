@@ -1,8 +1,10 @@
-system "clear"
+require "io/console"
+
 P = "\e[34m\e[1m&\e[0m"
 T = "\e[90m#\e[0m"
 W = "\e[94m\e[2m!\e[0m"
 G = "\e[32m$\e[0m"
+
 map = [
   [W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W],
   [W,P,W,T,T,T,W,T,W,T,W,T,T,T,T,T,T,T,W],
@@ -10,12 +12,16 @@ map = [
   [W,T,W,T,T,T,T,T,W,W,W,W,W,W,T,T,T,T,W],
   [W,W,W,W,W,W,W,W,W,W,T,T,W,T,T,T,W,W,W],
   [W,G,T,T,T,T,T,T,T,T,T,T,T,T,W,T,T,T,W],
-  [W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W]]
-MapSettings = {"WinMessage"=>"\e[34m\e[1mYou won!\e[0m"}
-x = 1
-y = 1
+  [W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W]
+]
+MapSettings={
+  "WinMessage" => "You won!"
+}
+x=1
+y=1
 
 define_singleton_method("showmap") {
+  system "clear"
   map.each do |line|
     line.each do |tile|
       print "#{tile} "
@@ -26,47 +32,47 @@ define_singleton_method("showmap") {
 define_singleton_method("win") {
   puts MapSettings["WinMessage"]; exit
 }; showmap
-
 puts """
-1 is frontwards
-2 is backwards
-3 is up
-4 is down """
+W = up
+S = down
+A = left
+D = right
+"""
 
 while true
-  print "Move: "
-  move = gets.chomp
-  system("clear")
-  
-  case move
-  when "1"
-    win unless map[y][x+1]!=G
-    if map[y][x+1]!=W
-      map[y][x]=T
-      map[y][x+1]=P
-      x+=1
-    end
-  when "2"
-    win unless map[y][x-1]!=G
-    if map[y][x-1]!=W
-      map[y][x]=T
-      map[y][x-1]=P
-      x-=1
-    end
-  when "3"
+  input = STDIN.getch
+  case input
+  when "w"
     win unless map[y-1][x]!=G
-    if map[y-1][x]!=W
-      map[y][x]=T
-      map[y-1][x]=P
+    if map[y-1][x]==T
       y-=1
+      map[y+1][x]=T
+      map[y][x]=P
     end
-  when "4"
+  when "s"
     win unless map[y+1][x]!=G
-    if map[y+1][x]!=W
-      map[y][x]=T
-      map[y+1][x]=P
+    if map[y+1][x]==T
       y+=1
+      map[y-1][x]=T
+      map[y][x]=P
     end
+  when "a"
+    win unless map[y][x-1]!=G
+    if map[y][x-1]==T
+      x-=1
+      map[y][x+1]=T
+      map[y][x]=P
+    end
+  when "d"
+    win unless map[y][x+1]!=G
+    if map[y][x+1]==T
+      x+=1
+      map[y][x-1]=T
+      map[y][x]=P
+    end
+  when "l"
+    exit
   end
   showmap
+  puts "X: #{x} Y: #{y}"
 end
