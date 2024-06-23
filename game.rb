@@ -33,10 +33,11 @@ define_singleton_method("win") {
   puts MapSettings["WinMessage"]; exit
 }; showmap
 puts """
-W = up
-S = down
-A = left
-D = right
+w = up
+s = down
+a = left
+d = right
+l = exit
 """
 
 while true
