@@ -1,6 +1,6 @@
 CC = clang
 CFLAGS = -Wall -Wextra -Wshadow -fsanitize=address -g -ggdb
-LDLIBS = -lncurses
+LDLIBS =
 BIN = main
 
 $(BIN): main.c
