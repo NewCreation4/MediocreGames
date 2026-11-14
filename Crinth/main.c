@@ -1,8 +1,5 @@
 #include <stdio.h>
-
-typedef enum {
-	EMPTY, WALL, LAVA, PLAYER, GOAL
-} Tile;
+#include "game.h"
 
 int main() {
 	return 0;
